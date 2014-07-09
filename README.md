@@ -9,4 +9,7 @@ export TODO_ACTIONS_DIR="/Users/me/todo.actions.d"
 Extensions
 ----------
 
-* [pri](https://github.com/tonipenya/todo.txt-cli/blob/addons/.todo.actions.d/pri) - copied 2014-06-09
+* [again](https://github.com/nthorne/todo.txt-cli-again-addon/blob/master/again) - checked 2014-06-09
+* [edit](https://github.com/mbrubeck/todo.txt-cli/blob/master/todo.actions.d/edit) - checked 2014-06-09
+* [pri](https://github.com/tonipenya/todo.txt-cli/blob/addons/.todo.actions.d/pri) - checked 2014-06-09
+* repeat - written by me
