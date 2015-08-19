@@ -1,0 +1,78 @@
+#!/usr/bin/env python
+
+"""
+filter incoming lines based on date threshold
+
+hides tasks marked with a date threshold ("t:YYYY-MM-DD") in the future or
+are due <3 days in the future ("due:YYYY-MM-DD")
+
+this is intended to be used as TODOTXT_FINAL_FILTER.
+"""
+
+GREEN       = '\033[0;32m'
+RED         = '\033[0;31m'
+LIGHT_GREEN = '\033[1;32m'
+BLUE        = '\033[94m'
+RESET       = '\033[0m'
+UNDERLINE   = '\033[4m'
+UNDERLINE_OFF = '\033[24m'
+BOLD        = '\033[1m'
+BOLD_OFF    = '\033[22m'
+
+COLOR_CONTEXT=BLUE
+COLOR_CONTEXT_OFF=RESET
+COLOR_PROJECT=UNDERLINE
+COLOR_PROJECT_OFF=UNDERLINE_OFF
+COLOR_DATE=BOLD
+COLOR_DATE_OFF=BOLD_OFF
+
+import sys
+import re
+
+from datetime import datetime, timedelta
+
+pattern1 = re.compile(r"t:(\d{4})-(\d{2})-(\d{2})")
+pattern2 = re.compile(r"due:(\d{4})-(\d{2})-(\d{2})")
+now = datetime.now()
+delta = timedelta(3)
+
+def show(line):
+  # match t: information first
+  match = pattern1.search(line)
+  if match:
+    threshold = [int(i) for i in match.groups()]
+    return datetime(*threshold) < now
+
+  # match due: information second
+  match = pattern2.search(line)
+  if match:
+    threshold = [int(i) for i in match.groups()]
+    return (datetime(*threshold)-delta) < now
+
+  # otherwise just show it
+  return True
+
+def color(line):
+  line = line.strip()
+
+  # TODO check for plain text flag
+
+  #color the dates
+  match = re.findall(r'\d{4}-\d{2}-\d{2}', line)
+  if match:
+    for item in match:
+      item = item.strip()
+      line = line.replace(item, COLOR_DATE+item+COLOR_DATE_OFF)
+
+  return line
+
+def main(args=None):
+  now = datetime.now()
+  for line in sys.stdin:
+    if show(line):
+      print color(line)
+  return True
+
+if __name__ == "__main__":
+  status = not main(sys.argv)
+  sys.exit(status)
