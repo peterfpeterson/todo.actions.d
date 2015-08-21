@@ -1,0 +1,3 @@
+[submodule "todo.txt-cli-again-addon"]
+	path = todo.txt-cli-again-addon
+	url = https://github.com/nthorne/todo.txt-cli-again-addon.git
