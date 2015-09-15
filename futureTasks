@@ -49,6 +49,12 @@ def show(line):
     threshold = [int(i) for i in match.groups()]
     return (datetime(*threshold)-delta) < now
 
+
+  # Match some of my special contexts
+  for special in [r'@inbox', r'@someday', r'@never']:
+    if special in line:
+      return False
+
   # otherwise just show it
   return True
 
