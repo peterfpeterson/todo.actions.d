@@ -32,20 +32,22 @@ fi
 
 # Trying to be smart...
 # on Debian alike:
-if $(which x-www-browser >/dev/null 2>&1); then
+if [ $(command -v x-www-browser) ]; then
     exec x-www-browser "$URL"
 # with freedesktop.org utils:
-elif $(which xdg-open >/dev/null 2>&1); then
+elif [ $(command -v xdg-open) ]; then
     exec xdg-open "$URL"
 # if you have git:
 elif [ -x /usr/lib/git-core/git-web--browse ]; then
     cd /usr/lib/git-core && ./git-web--browse "$URL"
 # last resort, a la mano...
-elif $(which firefox >/dev/null 2>&1); then
+elif [ $(command -v google-chrome) ]; then
+    exec google-chrome "$URL"
+elif [ $(command -v firefox) ]; then
     exec firefox "$URL"
-elif $(which konqueror >/dev/null 2>&1); then
+elif [ $(command -v konqueror) ]; then
     exec konqueror "$URL"
-elif $(which nautilus >/dev/null 2>&1); then
+elif [ $(command -v nautilus) ]; then
     exec nautilus "$URL"
 # Windowsien?
 elif [ -x "/cygdrive/c/Program Files/Mozilla Firefox/firefox.exe" ]; then
