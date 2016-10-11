@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import (absolute_import, division, print_function)
 
 import datetime
 import sys
@@ -49,7 +50,7 @@ def execTodo(todo_full_sh, args):
 if __name__ == "__main__":
    argc = len(sys.argv)
    if argc != 4 and argc != 5:
-      print "Usage: repeat ITEM DAYS"
+      print("Usage: repeat ITEM DAYS")
       sys.exit(1)
 
    # get the configuration - wait on repeat
@@ -66,7 +67,7 @@ if __name__ == "__main__":
    if len(tasks) < item_num:
       print "Not enough tasks in file '%s' (found %d)" % (filename, len(tasks))
       sys.exit(1)
-      
+
    # newtask starts out as the old one
    newtask = tasks[item_num].strip()
 
