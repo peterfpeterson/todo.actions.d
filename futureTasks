@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """
 filter incoming lines based on date threshold
 
@@ -26,6 +25,8 @@ COLOR_PROJECT_OFF=UNDERLINE_OFF
 COLOR_DATE=BOLD
 COLOR_DATE_OFF=BOLD_OFF
 
+HIDDEN_CONTEXTS = [r'@inbox', r'@someday', r'@never']:
+
 import sys
 import re
 
@@ -51,7 +52,7 @@ def show(line):
 
 
   # Match some of my special contexts
-  for special in [r'@inbox', r'@someday', r'@never']:
+  for special in HIDDEN_CONTEXTS:
     if special in line:
       return False
 
