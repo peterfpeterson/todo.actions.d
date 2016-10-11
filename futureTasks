@@ -7,6 +7,7 @@ are due <3 days in the future ("due:YYYY-MM-DD")
 
 this is intended to be used as TODOTXT_FINAL_FILTER.
 """
+from __future__ import (absolute_import, division, print_function)
 
 GREEN         = '\033[0;32m'
 RED           = '\033[0;31m'
@@ -25,7 +26,7 @@ COLOR_PROJECT_OFF = UNDERLINE_OFF
 COLOR_DATE = BOLD
 COLOR_DATE_OFF = BOLD_OFF
 
-HIDDEN_CONTEXTS = [r'@inbox', r'@someday', r'@never']:
+HIDDEN_CONTEXTS = [r'@inbox', r'@someday', r'@never']
 
 import sys
 import re
@@ -79,7 +80,7 @@ def main(args=None):
     now = datetime.now()
     for line in sys.stdin:
         if show(line):
-            print color(line)
+            print(color(line))
     return True
 
 if __name__ == "__main__":
