@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     # make sure the task exists
     if len(tasks) < item_num:
-        print "Not enough tasks in file '%s' (found %d)" % (filename, len(tasks))
+        print("Not enough tasks in file '%s' (found %d)" % (filename, len(tasks)))
         sys.exit(1)
 
     # newtask starts out as the old one
