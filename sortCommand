@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import (absolute_import, division, print_function)
 import sys
 
 class Item:
@@ -10,7 +11,7 @@ class Item:
       splitted = self.__raw.split()
       first = int(splitted[0])
       shortened = " ".join(splitted[1:])
-    except ValueError, e:
+    except ValueError as e:
       shortened = self.__raw
 
     # get the priority
@@ -48,5 +49,5 @@ if __name__ == "__main__":
   lines.sort(key=lambda line: line.hash)
 
   for line in lines:
-    print line
+    print(line)
   sys.exit(0)
