@@ -4,6 +4,3 @@
 [submodule "todo.txt-edit-addon"]
 	path = todo.txt-edit-addon
 	url = https://github.com/mbrubeck/todo.txt-cli.git
-[submodule "todo.txt-pri-addon"]
-	path = todo.txt-pri-addon
-	url = https://github.com/tonipenya/todo.txt-cli.git
