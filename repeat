@@ -18,5 +18,5 @@ function usage {
 [ "$action" = "usage" ] && usage
 
 [ "$action" = "repeat" ] && {
-  python $TODO_ACTIONS_DIR/repeat.py "$TODO_FULL_SH" "$TODO_FILE" $@
+  python3 $TODO_ACTIONS_DIR/repeat.py "$TODO_FULL_SH" "$TODO_FILE" $@
 }
