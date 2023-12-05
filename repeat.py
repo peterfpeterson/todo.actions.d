@@ -62,9 +62,8 @@ if __name__ == "__main__":
     item_num = int(sys.argv[3]) - 1  # python counts from zero
 
     # read in the tasks
-    handle = file(filename, 'r')
-    tasks = handle.readlines()
-    handle.close()
+    with open(filename, 'r')  as handle:
+        tasks = handle.readlines()
 
     # make sure the task exists
     if len(tasks) < item_num:
