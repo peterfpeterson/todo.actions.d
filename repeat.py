@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
 import datetime
 import sys
@@ -7,11 +7,11 @@ from subprocess import Popen
 
 
 def getTag(tag, text):
-    if not tag in text:
+    if tag not in text:
         return ("", "")
     index = text.find(tag)
     full = text[index:].split()[0].strip()
-    short = ':'.join(full.split(':')[1:])
+    short = ":".join(full.split(":")[1:])
     return (full, short)
 
 
@@ -22,10 +22,10 @@ def getNewDate(text, repeat, relative):
     today = datetime.date.today()
 
     # strip out the date from the task - if there is one
-    tag = 't:'
+    tag = "t:"
     (fulldate, date) = getTag(tag, newtask)
     if len(fulldate) <= 0:  # try another tag
-        tag = 'due:'
+        tag = "due:"
         (fulldate, date) = getTag(tag, newtask)
 
     # convert it into a date object
@@ -50,6 +50,7 @@ def execTodo(todo_full_sh, args):
     if result:
         sys.exit(result)
 
+
 if __name__ == "__main__":
     argc = len(sys.argv)
     if argc != 4 and argc != 5:
@@ -62,7 +63,7 @@ if __name__ == "__main__":
     item_num = int(sys.argv[3]) - 1  # python counts from zero
 
     # read in the tasks
-    with open(filename, 'r')  as handle:
+    with open(filename, "r") as handle:
         tasks = handle.readlines()
 
     # make sure the task exists
@@ -80,7 +81,7 @@ if __name__ == "__main__":
         (temp, repeat) = getTag("r:", newtask)
     relative = True
     if len(repeat) > 0:
-        if repeat.startswith('+'):
+        if repeat.startswith("+"):
             relative = False
             repeat = repeat[1:]
         repeat = int(repeat)
@@ -97,5 +98,5 @@ if __name__ == "__main__":
         pass  # just renter the task
 
     # do the work
-    execTodo(todo_cmd, ['do', str(item_num + 1)])
-    execTodo(todo_cmd, ['add', newtask])
+    execTodo(todo_cmd, ["do", str(item_num + 1)])
+    execTodo(todo_cmd, ["add", newtask])

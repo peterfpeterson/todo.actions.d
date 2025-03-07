@@ -1,53 +1,54 @@
 #!/usr/bin/env python3
-from __future__ import (absolute_import, division, print_function)
 import sys
 
+
 class Item:
-  def __init__(self, text):
-    self.__raw = text.strip()
+    def __init__(self, text):
+        self.__raw = text.strip()
 
-    # get the short version of everything
-    try:
-      splitted = self.__raw.split()
-      first = int(splitted[0])
-      shortened = " ".join(splitted[1:])
-    except ValueError as e:
-      shortened = self.__raw
+        # get the short version of everything
+        try:
+            values = self.__raw.split()
+            # first = int(values[0])
+            shortened = " ".join(values[1:])
+        except ValueError:
+            shortened = self.__raw
 
-    # get the priority
-    if shortened.startswith("("):
-      prior = shortened.split()[0]
-      shortened = " ".join(shortened.split()[1:])
-    else:
-      prior = "ZZZ"
+        # get the priority
+        if shortened.startswith("("):
+            prior = shortened.split()[0]
+            shortened = " ".join(shortened.split()[1:])
+        else:
+            prior = "ZZZ"
 
-    # get the date
-    if "t:" in shortened:
-      index = self.__raw.find("t:")
-      date = self.__raw[index:].split()[0]
-    elif "due:" in shortened:
-      index = self.__raw.find("due:")
-      date = self.__raw[index:].split()[0]
-    else:
-      date = "t:9999-99-99" # default date way into the future
-    # trim off the bits after the colon
-    date = date.split(':')[1]
+        # get the date
+        if "t:" in shortened:
+            index = self.__raw.find("t:")
+            date = self.__raw[index:].split()[0]
+        elif "due:" in shortened:
+            index = self.__raw.find("due:")
+            date = self.__raw[index:].split()[0]
+        else:
+            date = "t:9999-99-99"  # default date way into the future
+        # trim off the bits after the colon
+        date = date.split(":")[1]
 
-    self.hash = prior+date+shortened
+        self.hash = prior + date + shortened
 
-  def __str__(self):
-    return self.__raw
+    def __str__(self):
+        return self.__raw
+
 
 if __name__ == "__main__":
-  if len (sys.argv) == 2: # take a line from the command line
-    handle = file(sys.argv[1], 'r')
-    lines = handle.readlines()
-  else:
-    lines = sys.stdin
+    if len(sys.argv) == 2:  # take a line from the command line
+        with open(sys.argv[1], "r") as handle:
+            lines = handle.readlines()
+    else:
+        lines = sys.stdin
 
-  lines = [Item(item) for item in lines]
-  lines.sort(key=lambda line: line.hash)
+    lines = [Item(item) for item in lines]
+    lines.sort(key=lambda line: line.hash)
 
-  for line in lines:
-    print(line)
-  sys.exit(0)
+    for line in lines:
+        print(line)
+    sys.exit(0)

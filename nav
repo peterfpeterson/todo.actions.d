@@ -30,34 +30,5 @@ if [ "$URL" = "" ]; then
     exit 1
 fi
 
-# default is chrome
-if [ $(command -v google-chrome) ]; then
-    exec google-chrome "$URL"
-# Trying to be smart...
-# on Debian alike:
-elif [ $(command -v x-www-browser) ]; then
-    exec x-www-browser "$URL"
-# with freedesktop.org utils:
-elif [ $(command -v xdg-open) ]; then
-    exec xdg-open "$URL"
-# if you have git:
-elif [ -x /usr/lib/git-core/git-web--browse ]; then
-    cd /usr/lib/git-core && ./git-web--browse "$URL"
-# last resort, a la mano...
-elif [ $(command -v firefox) ]; then
-    exec firefox "$URL"
-elif [ $(command -v konqueror) ]; then
-    exec konqueror "$URL"
-elif [ $(command -v nautilus) ]; then
-    exec nautilus "$URL"
-# Windowsien?
-elif [ -x "/cygdrive/c/Program Files/Mozilla Firefox/firefox.exe" ]; then
-    exec "/cygdrive/c/Program Files/Mozilla Firefox/firefox.exe" "$URL"
-# OS X?
-elif [ -x "/usr/bin/open" ]; then
-    exec "/usr/bin/open" "$URL"
-else
-    echo "Sorry I'm giving up, cannot find your browser :-("
-    echo "Under cygwin, consider creating a shortcut in the path, like"
-    echo "ln -s \"/cygdrive/c/Program Files/Mozilla Firefox/firefox.exe\" /usr/local/bin/firefox"
-fi
+# open the url
+xdg-open "$URL"
