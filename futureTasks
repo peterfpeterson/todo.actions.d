@@ -7,17 +7,21 @@ are due <3 days in the future ("due:YYYY-MM-DD")
 
 this is intended to be used as TODOTXT_FINAL_FILTER.
 """
-from __future__ import (absolute_import, division, print_function)
 
-GREEN         = '\033[0;32m'
-RED           = '\033[0;31m'
-LIGHT_GREEN   = '\033[1;32m'
-BLUE          = '\033[94m'
-RESET         = '\033[0m'
-UNDERLINE     = '\033[4m'
-UNDERLINE_OFF = '\033[24m'
-BOLD          = '\033[1m'
-BOLD_OFF      = '\033[22m'
+import sys
+import re
+
+from datetime import datetime, timedelta
+
+GREEN = "\033[0;32m"
+RED = "\033[0;31m"
+LIGHT_GREEN = "\033[1;32m"
+BLUE = "\033[94m"
+RESET = "\033[0m"
+UNDERLINE = "\033[4m"
+UNDERLINE_OFF = "\033[24m"
+BOLD = "\033[1m"
+BOLD_OFF = "\033[22m"
 
 COLOR_CONTEXT = BLUE
 COLOR_CONTEXT_OFF = RESET
@@ -26,12 +30,8 @@ COLOR_PROJECT_OFF = UNDERLINE_OFF
 COLOR_DATE = BOLD
 COLOR_DATE_OFF = BOLD_OFF
 
-HIDDEN_CONTEXTS = [r'@inbox', r'@someday', r'@never']
+HIDDEN_CONTEXTS = [r"@inbox", r"@someday", r"@never"]
 
-import sys
-import re
-
-from datetime import datetime, timedelta
 
 pattern1 = re.compile(r"t:(\d{4})-(\d{2})-(\d{2})")
 pattern2 = re.compile(r"due:(\d{4})-(\d{2})-(\d{2})")
@@ -61,27 +61,61 @@ def show(line):
     return True
 
 
-def color(line):
-    line = line.strip()
+# taken from comment in https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+def terminal_link(url, text):
+    return "\033]8;;" + url + "\033\\" + text + "\033]8;;\033\\"
 
+
+def format_markdown_link(line):
+    # TODO check for plain text flag
+
+    # split of line number from the rest of the text
+    lineno, *myline = line.split()
+    myline = " ".join(myline)
+
+    # find all of the md-formatted links
+    match_link = re.findall(r"\[.+\]\(.+\)", myline)  # \(.+\)", line)
+    for item in match_link:
+        text, url = re.findall(r"\[(.+)\]\((.+)\)", item)[0]
+        myline = myline.replace(item, terminal_link(url, text))
+        myline.replace(item, terminal_link(url, text))
+
+    return lineno + " " + myline
+
+
+def color(line):
     # TODO check for plain text flag
 
     # color the dates
-    match = re.findall(r'\d{4}-\d{2}-\d{2}', line)
-    if match:
-        for item in match:
+    match_date = re.findall(r"\d{4}-\d{2}-\d{2}", line)
+    if match_date:
+        for item in match_date:
             item = item.strip()
             line = line.replace(item, COLOR_DATE + item + COLOR_DATE_OFF)
 
     return line
 
 
+def format(line):
+    line = line.strip()
+
+    # TODO check for plain text flag
+
+    # color the dates
+    line = color(line)
+
+    # format urls
+    line = format_markdown_link(line)
+
+    return line
+
+
 def main(args=None):
-    now = datetime.now()
     for line in sys.stdin:
         if show(line):
-            print(color(line))
+            print(format(line))
     return True
+
 
 if __name__ == "__main__":
     status = not main(sys.argv)
