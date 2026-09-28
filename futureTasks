@@ -8,9 +8,8 @@ are due <3 days in the future ("due:YYYY-MM-DD")
 this is intended to be used as TODOTXT_FINAL_FILTER.
 """
 
-import sys
 import re
-
+import sys
 from datetime import datetime, timedelta
 
 GREEN = "\033[0;32m"
